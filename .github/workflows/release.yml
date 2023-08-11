@@ -57,8 +57,8 @@ jobs:
         shell: bash
         working-directory: ${{ vars.GITHUB_PATH }}
 
-      - name: Publish to galaxy
-        run: ansible-galaxy collection publish --api-key=${{ secrets.GALAXY_INFRA_KEY }} ${{ steps.build.outputs.tar_file }}
+      # - name: Publish to galaxy
+      #   run: ansible-galaxy collection publish --api-key=${{ secrets.GALAXY_INFRA_KEY }} ${{ steps.build.outputs.tar_file }}
 
       - name: Upload files to tag
         uses: svenstaro/upload-release-action@v2
