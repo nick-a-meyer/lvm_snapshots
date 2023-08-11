@@ -12,8 +12,8 @@ tags:
 - ansible
 - lvm
 - storage
-dependencies:
-  "community.general": "*"
+# dependencies:
+  # "community.general": "*"
 repository: https://github.com/swapdisk/lvm_snapshots
 documentation: https://github.com/swapdisk/lvm_snapshots
 homepage: https://github.com/swapdisk/lvm_snapshots
