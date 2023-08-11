@@ -1,0 +1,301 @@
+---
+argument_specs:
+  check:
+    short_description: Verify there is enough free space for the specified snapshots
+    options:
+      lvm_snapshots_set_name:
+        type: str
+        required: true
+        no_log: false
+        description: Identifier for LVs
+
+      lvm_snapshots_volumes:
+        type: list
+        required: true
+        no_log: false
+        description: Logical Volume Information
+        elements: dict
+        options:
+          lv:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+          vg:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of VG"
+
+  check_for_resize:
+    short_description: Verify there is enough free space for the specified snapshots to be resized
+    options:
+      lvm_snapshots_volumes:
+        type: list
+        required: true
+        no_log: false
+        description: Logical Volume Information
+        elements: dict
+        options:
+          lv:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+          vg:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of VG"
+
+  create:
+    short_description: Verify enough free space and create snapshots
+    options:
+      lvm_snapshots_set_name:
+        type: str
+        required: true
+        no_log: false
+        description: Identifier for LVs
+
+      lvm_snapshots_boot_backup:
+        type: bool
+        required: true
+        no_log: false
+        description: Whether or not to create a boot backup
+        choices: [true, false]
+
+      lvm_snapshots_snapshot_autoextend_threshold:
+        type: int
+        required: false
+        no_log: false
+        description: Autoextend threshold
+
+      lvm_snapshots_snapshot_autoextend_percent:
+        type: int
+        required: false
+        no_log: false
+        description: Autoextend amount
+
+      lvm_snapshots_volumes:
+        type: list
+        required: true
+        no_log: false
+        description: Logical Volume Information
+        elements: dict
+        options:
+          lv:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+          vg:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of VG"
+
+          size:
+            type: str
+            required: true
+            no_log: false
+            description: "Size of New Snapshot"
+
+  main:
+    short_description: Main entrypoint for lvm_snapshots
+    options:
+      lvm_snapshots_action:
+        type: str
+        required: true
+        no_log: false
+        description: Action to perform
+        choices: ['check', 'create', 'revert', 'remove']
+
+      lvm_snapshots_set_name:
+        type: str
+        no_log: false
+        description: Identifier for LVs
+
+      lvm_snapshots_boot_backup:
+        type: bool
+        no_log: false
+        description: Whether or not to create a boot backup
+        choices: [true, false]
+
+      lvm_snapshots_use_boom:
+        type: bool
+        required: false
+        no_log: false
+        description: Whether or not boom should be used
+        choices: [true, false]
+
+      lvm_snapshots_snapshot_autoextend_threshold:
+        type: int
+        required: false
+        no_log: false
+        description: Autoextend threshold
+
+      lvm_snapshots_snapshot_autoextend_percent:
+        type: int
+        required: false
+        no_log: false
+        description: Autoextend amount
+
+      lvm_snapshots_volumes:
+        type: list
+        no_log: false
+        description: Logical Volume Information
+        elements: dict
+        options:
+          lv:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+          vg:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of VG"
+
+          size:
+            type: str
+            required: true
+            no_log: false
+            description: "Size of New Snapshot"
+
+  remove:
+    short_description: Remove snapshots
+    options:
+      lvm_snapshots_snapshots:
+        type: list
+        required: true
+        no_log: false
+        description: List of LVs
+        elements: dict
+        options:
+          lv_name:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+          origin:
+            type: str
+            required: true
+            no_log: false
+            description: "Origin of LV"
+
+          vg_name:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of VG"
+
+      lvm_snapshots_set_name:
+        type: str
+        required: true
+        no_log: false
+        description: Identifier for LVs
+
+  revert:
+    short_description: Merge snapshots to origin and reboot (i.e., rollback)
+    options:
+      lvm_snapshots_boot_backup:
+        type: bool
+        required: true
+        no_log: false
+        description: "Whether or not to perform a boot backup."
+        choices: [true, false]
+
+      lvm_snapshots_set_name:
+        type: str
+        required: true
+        no_log: false
+        description: Identifier for LVs
+
+      lvm_snapshots_snapshots:
+        type: list
+        required: true
+        no_log: false
+        description: List of LVs
+        elements: dict
+        options:
+          lv_name:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+          vg_name:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of VG"
+
+  verify_no_existing_snapshot:
+    short_description: Check for any existing snapshots with the same name
+    options:
+      lvm_snapshots_set_name:
+        type: str
+        required: true
+        no_log: false
+        description: Identifier for LVs
+
+      item:
+        type: dict
+        required: true
+        no_log: false
+        description: Logical Volume Information
+        options:
+          lv:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+          vg:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of VG"
+
+  verify_snapshot_active:
+    short_description: Verify snapshot is active
+    options:
+      item:
+        type: dict
+        required: true
+        no_log: false
+        description: Logical Volume Information
+        options:
+          lv_name:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+  verify_volume_exists:
+    short_description: Verify target volumes exist
+    options:
+      item:
+        type: dict
+        required: true
+        no_log: false
+        description: Logical Volume Information
+        options:
+          lv:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of LV"
+
+          vg:
+            type: str
+            required: true
+            no_log: false
+            description: "Name of VG"
+...
