@@ -1,3 +1,4 @@
+---
 - name: Remove snapshots
   community.general.lvol:
     state: absent
@@ -11,3 +12,4 @@
   ansible.builtin.file:
     path: "/root/boot-backup-{{ lvm_snapshots_set_name }}.tgz"
     state: absent
+...

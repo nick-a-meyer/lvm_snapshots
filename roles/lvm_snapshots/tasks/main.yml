@@ -1,3 +1,4 @@
+---
 - name: Check before resize
   ansible.builtin.include_tasks: check_for_resize.yml
   when: lvm_snapshots_action in ['check_for_resize', 'resize']
@@ -17,6 +18,7 @@
     ansible.builtin.command: "lvs --select 'lv_name =~ {{ lvm_snapshots_set_name }}$ && origin != \"\"' --reportformat json "
     register: lvm_snapshots_lvs_response
     changed_when: false
+
   - name: Get LV dict List
     ansible.builtin.set_fact:
       lvm_snapshots_snapshots: "{{ (lvm_snapshots_lvs_response.stdout | from_json).report[0].lv }}"
@@ -28,3 +30,4 @@
 - name: Removing the Snapshot
   ansible.builtin.include_tasks: remove.yml
   when: lvm_snapshots_action == 'remove'
+...

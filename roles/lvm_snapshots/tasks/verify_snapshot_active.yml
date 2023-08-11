@@ -1,3 +1,4 @@
+---
 - name: Run lvs
   ansible.builtin.command: "lvs --select 'lv_name = {{ item.lv_name }}' --reportformat json"
   register: lvm_snapshots_lvs_response
@@ -12,3 +13,4 @@
     that:
     - lvm_snapshots_lv_attr[0] == 's'
     - lvm_snapshots_lv_attr[4] == 'a'
+...

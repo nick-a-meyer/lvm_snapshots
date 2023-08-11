@@ -1,18 +1,22 @@
+---
 - name: Update lvm configuration
   block:
   - name: Stringify snapshot_autoextend_percent setting
     ansible.builtin.set_fact:
       lvm_snapshots_snapshot_autoextend_percent_config: "activation/snapshot_autoextend_percent={{ lvm_snapshots_snapshot_autoextend_percent }}"
     when: lvm_snapshots_snapshot_autoextend_percent is defined
+
   - name: Stringify snapshot_autoextend_threshold setting
     ansible.builtin.set_fact:
       lvm_snapshots_snapshot_autoextend_threshold_config: "activation/snapshot_autoextend_threshold={{ lvm_snapshots_snapshot_autoextend_threshold }}"
     when: lvm_snapshots_snapshot_autoextend_threshold is defined
+
   - name: Stringify the new config
     ansible.builtin.set_fact:
       lvm_snapshots_new_lvm_config: >
         {{ lvm_snapshots_snapshot_autoextend_percent_config | default('') }}
-         {{ lvm_snapshots_snapshot_autoextend_threshold_config | default('') }}
+        {{ lvm_snapshots_snapshot_autoextend_threshold_config | default('') }}
+
   - name: Set LVM configuration
     ansible.builtin.command: 'lvmconfig --mergedconfig --config "{{ lvm_snapshots_new_lvm_config }}" --file /etc/lvm/lvm.conf'
     changed_when: true
@@ -41,3 +45,4 @@
     - /boot/grub2/grub.cfg
     - /boot/efi/EFI/redhat/grub.cfg
   when: lvm_snapshots_boot_backup
+...

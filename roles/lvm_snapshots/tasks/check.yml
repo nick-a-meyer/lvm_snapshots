@@ -1,3 +1,4 @@
+---
 - name: Verify that all volumes exist
   ansible.builtin.include_tasks: verify_volume_exists.yml
   loop: "{{ lvm_snapshots_volumes }}"
@@ -24,3 +25,4 @@
     that: lvm_snapshots_check_status.rc == 0
     fail_msg: Not enough space in the Volume Groups to create the requested snapshots
     success_msg: The Volume Groups have enough space to create the requested snapshots
+...

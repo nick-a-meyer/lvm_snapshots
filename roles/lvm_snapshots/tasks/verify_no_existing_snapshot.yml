@@ -1,3 +1,4 @@
+---
 - name: Run lvs
   ansible.builtin.command: >
     lvs
@@ -19,3 +20,4 @@
       The volume '{{ item.lv }}' in volume group '{{ item.vg }}'
       already has at least one snapshot
       '{{ lvm_snapshots_lv_snapshot_report_array[0].lv_name | default('none') }}'
+...

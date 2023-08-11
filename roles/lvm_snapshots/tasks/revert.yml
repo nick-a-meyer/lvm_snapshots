@@ -1,3 +1,4 @@
+---
 - name: Verify that all snapshots are active
   ansible.builtin.include_tasks: verify_snapshot_active.yml
   loop: "{{ lvm_snapshots_snapshots }}"
@@ -22,3 +23,4 @@
     path: "/root/boot-backup-{{ lvm_snapshots_set_name }}.tgz"
     state: absent
   when: lvm_snapshots_boot_backup
+...
