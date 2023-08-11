@@ -15,7 +15,7 @@
     ansible.builtin.set_fact:
       lvm_snapshots_new_lvm_config: >
         {{ lvm_snapshots_snapshot_autoextend_percent_config | default('') }}
-        {{ lvm_snapshots_snapshot_autoextend_threshold_config | default('') }}
+         {{ lvm_snapshots_snapshot_autoextend_threshold_config | default('') }}
 
   - name: Set LVM configuration
     ansible.builtin.command: 'lvmconfig --mergedconfig --config "{{ lvm_snapshots_new_lvm_config }}" --file /etc/lvm/lvm.conf'
