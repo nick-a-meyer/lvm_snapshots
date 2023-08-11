@@ -15,9 +15,11 @@
   failed_when: false
   changed_when: false
 
-- name: Store check return in case of failure
-  ansible.builtin.set_fact:
+- name: Display check return in case of failure
+  vars:
     lvm_snapshots_check_failure_json: "{{ lvm_snapshots_check_status.stdout | from_json }}"
+  ansible.builtin.debug:
+    var: lvm_snapshots_check_failure_json
   when: lvm_snapshots_check_status.rc != 0
 
 - name: Assert results

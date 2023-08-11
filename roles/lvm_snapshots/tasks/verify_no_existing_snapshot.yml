@@ -9,11 +9,9 @@
   register: lvm_snapshots_lvs_response
   changed_when: false
 
-- name: Parse report
-  ansible.builtin.set_fact:
-    lvm_snapshots_lv_snapshot_report_array: "{{ (lvm_snapshots_lvs_response.stdout | from_json).report[0].lv }}"
-
 - name: Verify that the no snapshot exists for the volume
+  vars:
+    lvm_snapshots_lv_snapshot_report_array: "{{ (lvm_snapshots_lvs_response.stdout | from_json).report[0].lv }}"
   ansible.builtin.assert:
     that: (lvm_snapshots_lv_snapshot_report_array | length) == 0
     fail_msg: >
